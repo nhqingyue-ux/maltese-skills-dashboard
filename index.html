@@ -15,10 +15,19 @@
 
     header {
       max-width: 1060px;
-      margin: 20px auto 10px;
+      margin: 20px auto 12px;
       padding: 0 18px;
     }
-    h1 { font-size: 1.9rem; color: #5a4638; }
+    .title-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: #fffaf2;
+      border: 1px solid #ecdcc7;
+      border-radius: 12px;
+      padding: 8px 14px;
+      box-shadow: 0 2px 8px rgba(120, 85, 55, .05);
+    }
+    h1 { font-size: 1.2rem; letter-spacing: .02em; color: #5a4638; }
     .meta { margin-top: 8px; color: #8a7566; font-size: .9rem; }
 
     .container { max-width: 1060px; margin: 0 auto 52px; padding: 0 18px; }
@@ -190,7 +199,7 @@
 </head>
 <body>
   <header>
-    <h1>🐶 Maltese 服务器信息看板</h1>
+    <div class="title-wrap"><h1>Maltese</h1></div>
     <div class="meta" id="meta"></div>
   </header>
 
