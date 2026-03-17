@@ -90,6 +90,7 @@
     .grid > .panel:nth-child(1),
     .grid > .panel:nth-child(2),
     .grid > .panel:nth-child(3),
+    .grid > .panel:nth-child(4),
     .grid > .panel:nth-child(11) {
       grid-column: 1 / -1;
     }
@@ -98,6 +99,7 @@
       .grid > .panel:nth-child(1),
       .grid > .panel:nth-child(2),
       .grid > .panel:nth-child(3),
+      .grid > .panel:nth-child(4),
       .grid > .panel:nth-child(11) {
         grid-column: auto;
       }
@@ -246,13 +248,13 @@
       <article class="panel"><h2>🟢 Status</h2><div class="panel-note">核心状态与运行健康</div><ul class="list" id="status-list"></ul></article>
       <article class="panel"><h2>⏱ Uptime</h2><div class="panel-note">主机与服务持续运行时间</div><ul class="list" id="uptime-list"></ul></article>
       <article class="panel"><h2>🧠 System Resources</h2><div class="panel-note">CPU / 内存 / 磁盘实时占用</div><ul class="list" id="resource-list"></ul></article>
+      <article class="panel"><h2>🧮 Token Usage</h2><div class="panel-note">按会话窗口估算今日消耗（M）</div><ul class="list" id="token-list"></ul></article>
       <article class="panel"><h2>🛠 Services</h2><div class="panel-note">关键服务可用性与状态</div><ul class="list" id="service-list"></ul></article>
       <article class="panel"><h2>🧵 Active Sessions</h2><div class="panel-note">当前会话活跃情况</div><ul class="list" id="session-list"></ul></article>
       <article class="panel"><h2>🤖 Sub-agents</h2><div class="panel-note">后台子代理任务队列</div><ul class="list" id="subagent-list"></ul></article>
       <article class="panel"><h2>⏰ Cron Jobs</h2><div class="panel-note">定时任务执行计划</div><ul class="list" id="cron-list"></ul></article>
       <article class="panel"><h2>🧰 NPM Global Tools</h2><div class="panel-note">全局工具清单</div><div class="chips" id="npm-tools"></div></article>
       <article class="panel"><h2>🧩 MCP Servers</h2><div class="panel-note">MCP 服务配置与在线情况</div><ul class="list" id="mcp-list"></ul></article>
-      <article class="panel"><h2>🧮 Token Usage</h2><div class="panel-note">按会话窗口估算今日消耗</div><ul class="list" id="token-list"></ul></article>
 
       <article class="panel">
         <h2>📦 Skills</h2>
@@ -312,10 +314,10 @@
         { k: 'Online', v: '—' }
       ],
       tokenUsage: [
-        { k: '🧮 今日估算总 Tokens', v: '—', cls: 'ok' },
+        { k: '🧮 今日估算总 Tokens', v: '0.000M', cls: 'ok' },
         { k: '🧵 统计会话数', v: '—' },
         { k: '🤖 主力模型', v: '—' },
-        { k: '📊 主力模型 Tokens', v: '—' }
+        { k: '📊 主力模型 Tokens', v: '0.000M' }
       ],
       skills: [
         { name: 'apple-notes', ready: true, desc: '管理 Apple Notes（创建、编辑、检索）', req: [] },

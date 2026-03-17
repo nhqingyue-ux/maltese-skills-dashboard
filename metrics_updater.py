@@ -113,6 +113,10 @@ def parse_token_str_to_int(s: str) -> int:
     return int(n)
 
 
+def fmt_m(tokens: int) -> str:
+    return f"{tokens / 1_000_000:.3f}M"
+
+
 def get_token_usage_estimate():
     text = run("openclaw status")
     total = 0
@@ -187,10 +191,10 @@ def collect():
         "npmTools": npm_global_tools(),
         "mcpServers": [{"k": "Configured", "v": "—"}, {"k": "Online", "v": "—"}],
         "tokenUsage": [
-            {"k": "🧮 今日估算总 Tokens", "v": f"{tu['total']:,}", "cls": "ok"},
+            {"k": "🧮 今日估算总 Tokens", "v": fmt_m(tu['total']), "cls": "ok"},
             {"k": "🧵 统计会话数", "v": str(tu['sessions'])},
             {"k": "🤖 主力模型", "v": tu['top_model']},
-            {"k": "📊 主力模型 Tokens", "v": f"{tu['top_tokens']:,}"},
+            {"k": "📊 主力模型 Tokens", "v": fmt_m(tu['top_tokens'])},
         ],
     }
     tmp = OUT.with_suffix(".tmp")
