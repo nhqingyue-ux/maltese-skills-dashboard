@@ -36,7 +36,7 @@
       padding: 12px;
       box-shadow: 0 2px 8px rgba(120, 85, 55, .06);
     }
-    .kpi .n { font-size: 1.5rem; font-weight: 700; color: #6a5241; }
+    .kpi .n { font-size: 1.62rem; font-weight: 700; color: #6a5241; }
     .kpi .l { margin-top: 4px; color: #9a8678; font-size: .84rem; }
 
     .grid {
@@ -98,9 +98,9 @@
       white-space: nowrap;
       border: 1px solid transparent;
     }
-    .ok { color: #3f7a53; border-color: #c6e5cf; background: #f1fbf4; }
-    .warn { color: #a27636; border-color: #f2debe; background: #fff8ef; }
-    .bad { color: #a24b4b; border-color: #f2d2d2; background: #fff6f6; }
+    .ok { color: #4d7f5c; border-color: #d3e9d9; background: #f5fcf7; }
+    .warn { color: #a98550; border-color: #f4e5ce; background: #fffaf3; }
+    .bad { color: #a96868; border-color: #f3dddd; background: #fff8f8; }
 
     .chips { display: flex; flex-wrap: wrap; gap: 7px; }
     .chip {
@@ -197,6 +197,7 @@
     const data = {
       updatedAt: new Date().toLocaleString('zh-CN'),
       host: '农黄清月的Mac mini',
+      source: 'fallback',
       status: [
         { k: 'OpenClaw Gateway', v: 'Running', cls: 'ok' },
         { k: 'Model', v: 'onekey-codex/gpt-5.3-codex', cls: 'ok' },
@@ -326,7 +327,8 @@
     }
 
     function renderAll() {
-      byId('meta').textContent = `Host: ${data.host} · 更新时间: ${data.updatedAt}`;
+      const sourceLabel = data.source === 'live' ? '实时' : '本地';
+      byId('meta').textContent = `Host: ${data.host} · 更新时间: ${data.updatedAt} · 数据源: ${sourceLabel}`;
       renderKPIs();
       renderRows('status-list', data.status);
       renderRows('uptime-list', data.uptime);
@@ -340,6 +342,29 @@
       renderSkills();
     }
 
+    async function loadLiveMetrics() {
+      try {
+        const res = await fetch(`./data/metrics.json?t=${Date.now()}`, { cache: 'no-store' });
+        if (!res.ok) return;
+        const live = await res.json();
+        data.updatedAt = live.updatedAt || data.updatedAt;
+        data.host = live.host || data.host;
+        data.source = 'live';
+        if (Array.isArray(live.status)) data.status = live.status;
+        if (Array.isArray(live.uptime)) data.uptime = live.uptime;
+        if (Array.isArray(live.resources)) data.resources = live.resources;
+        if (Array.isArray(live.services)) data.services = live.services;
+        if (Array.isArray(live.activeSessions)) data.activeSessions = live.activeSessions;
+        if (Array.isArray(live.subagents)) data.subagents = live.subagents;
+        if (Array.isArray(live.cronJobs)) data.cronJobs = live.cronJobs;
+        if (Array.isArray(live.npmTools)) data.npmTools = live.npmTools;
+        if (Array.isArray(live.mcpServers)) data.mcpServers = live.mcpServers;
+        renderAll();
+      } catch (_) {
+        // keep fallback data
+      }
+    }
+
     byId('skill-search').addEventListener('input', renderSkills);
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -351,6 +376,8 @@
     });
 
     renderAll();
+    loadLiveMetrics();
+    setInterval(loadLiveMetrics, 10000);
   </script>
 </body>
 </html>

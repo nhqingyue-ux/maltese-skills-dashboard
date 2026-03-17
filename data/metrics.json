@@ -1,0 +1,121 @@
+{
+  "updatedAt": "2026-03-17 17:34:57",
+  "host": "Mac",
+  "status": [
+    {
+      "k": "🚪 OpenClaw Gateway",
+      "v": "running",
+      "cls": "ok"
+    },
+    {
+      "k": "🧠 Model",
+      "v": "onekey-codex/gpt-5.3-codex",
+      "cls": "ok"
+    },
+    {
+      "k": "💬 Channel",
+      "v": "Discord",
+      "cls": "ok"
+    },
+    {
+      "k": "🩺 Health",
+      "v": "Nominal",
+      "cls": "ok"
+    }
+  ],
+  "uptime": [
+    {
+      "k": "🖥 Host Uptime",
+      "v": "17:34  up 3 days, 15:58, 2 users, load averages: 1.77 1.93 1.87"
+    },
+    {
+      "k": "📡 Gateway Uptime",
+      "v": "live (daemon)"
+    },
+    {
+      "k": "🕒 Last Refresh",
+      "v": "17:34:57"
+    }
+  ],
+  "resources": [
+    {
+      "k": "⚙️ CPU",
+      "v": "13.2%",
+      "pct": 13.2
+    },
+    {
+      "k": "🧠 Memory",
+      "v": "92.7%",
+      "pct": 92.7
+    },
+    {
+      "k": "💾 Disk /",
+      "v": "24.3%",
+      "pct": 24.3
+    },
+    {
+      "k": "📈 Load Avg",
+      "v": "1.77 / 1.93 / 1.87"
+    }
+  ],
+  "services": [
+    {
+      "k": "openclaw",
+      "v": "running",
+      "cls": "ok"
+    },
+    {
+      "k": "http-dashboard",
+      "v": "running",
+      "cls": "ok"
+    },
+    {
+      "k": "metrics-updater",
+      "v": "running",
+      "cls": "ok"
+    }
+  ],
+  "activeSessions": [
+    {
+      "k": "🧵 main",
+      "v": "discord #skill",
+      "cls": "ok"
+    }
+  ],
+  "subagents": [
+    {
+      "k": "running",
+      "v": "0",
+      "cls": "ok"
+    },
+    {
+      "k": "queued",
+      "v": "0",
+      "cls": "ok"
+    }
+  ],
+  "cronJobs": [
+    {
+      "k": "📬 Gmail 周报",
+      "v": "每周五 15:00 GMT+8",
+      "cls": "ok"
+    }
+  ],
+  "npmTools": [
+    "@googleworkspace/cli",
+    "clawhub",
+    "corepack",
+    "npm",
+    "openclaw"
+  ],
+  "mcpServers": [
+    {
+      "k": "Configured",
+      "v": "—"
+    },
+    {
+      "k": "Online",
+      "v": "—"
+    }
+  ]
+}
