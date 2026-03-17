@@ -97,6 +97,56 @@ def npm_global_tools(limit=18):
         return ["openclaw", "clawhub", "node", "npm"]
 
 
+def parse_token_str_to_int(s: str) -> int:
+    s = s.strip().lower()
+    m = re.match(r"(\d+(?:\.\d+)?)([kmb]?)", s)
+    if not m:
+        return 0
+    n = float(m.group(1))
+    unit = m.group(2)
+    if unit == "k":
+        n *= 1000
+    elif unit == "m":
+        n *= 1_000_000
+    elif unit == "b":
+        n *= 1_000_000_000
+    return int(n)
+
+
+def get_token_usage_estimate():
+    text = run("openclaw status")
+    total = 0
+    rows = 0
+    by_model = {}
+    for line in text.splitlines():
+        if "│" not in line or "/200k" not in line:
+            continue
+        parts = [p.strip() for p in line.split("│") if p.strip()]
+        if len(parts) < 5:
+            continue
+        model = parts[3]
+        tokens_cell = parts[4]
+        m = re.search(r"([0-9]+(?:\.[0-9]+)?[kmb]?)\s*/", tokens_cell.lower())
+        if not m:
+            continue
+        v = parse_token_str_to_int(m.group(1))
+        total += v
+        rows += 1
+        by_model[model] = by_model.get(model, 0) + v
+
+    top_model = "—"
+    top_tokens = 0
+    if by_model:
+        top_model, top_tokens = sorted(by_model.items(), key=lambda x: x[1], reverse=True)[0]
+
+    return {
+        "total": total,
+        "sessions": rows,
+        "top_model": top_model,
+        "top_tokens": top_tokens,
+    }
+
+
 def collect():
     cpu = get_cpu_used()
     mem = get_memory_stats()
@@ -104,6 +154,7 @@ def collect():
     load = get_load_avg()
     up = get_uptime()
     gw = gateway_status()
+    tu = get_token_usage_estimate()
 
     data = {
         "updatedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -135,6 +186,12 @@ def collect():
         "cronJobs": [{"k": "📬 Gmail 周报", "v": "每周五 15:00 GMT+8", "cls": "ok"}],
         "npmTools": npm_global_tools(),
         "mcpServers": [{"k": "Configured", "v": "—"}, {"k": "Online", "v": "—"}],
+        "tokenUsage": [
+            {"k": "🧮 今日估算总 Tokens", "v": f"{tu['total']:,}", "cls": "ok"},
+            {"k": "🧵 统计会话数", "v": str(tu['sessions'])},
+            {"k": "🤖 主力模型", "v": tu['top_model']},
+            {"k": "📊 主力模型 Tokens", "v": f"{tu['top_tokens']:,}"},
+        ],
     }
     tmp = OUT.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")

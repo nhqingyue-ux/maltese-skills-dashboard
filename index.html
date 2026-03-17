@@ -90,7 +90,7 @@
     .grid > .panel:nth-child(1),
     .grid > .panel:nth-child(2),
     .grid > .panel:nth-child(3),
-    .grid > .panel:nth-child(10) {
+    .grid > .panel:nth-child(11) {
       grid-column: 1 / -1;
     }
     @media (max-width: 980px) {
@@ -98,7 +98,7 @@
       .grid > .panel:nth-child(1),
       .grid > .panel:nth-child(2),
       .grid > .panel:nth-child(3),
-      .grid > .panel:nth-child(10) {
+      .grid > .panel:nth-child(11) {
         grid-column: auto;
       }
     }
@@ -252,6 +252,7 @@
       <article class="panel"><h2>⏰ Cron Jobs</h2><div class="panel-note">定时任务执行计划</div><ul class="list" id="cron-list"></ul></article>
       <article class="panel"><h2>🧰 NPM Global Tools</h2><div class="panel-note">全局工具清单</div><div class="chips" id="npm-tools"></div></article>
       <article class="panel"><h2>🧩 MCP Servers</h2><div class="panel-note">MCP 服务配置与在线情况</div><ul class="list" id="mcp-list"></ul></article>
+      <article class="panel"><h2>🧮 Token Usage</h2><div class="panel-note">按会话窗口估算今日消耗</div><ul class="list" id="token-list"></ul></article>
 
       <article class="panel">
         <h2>📦 Skills</h2>
@@ -309,6 +310,12 @@
       mcpServers: [
         { k: 'Configured', v: '—' },
         { k: 'Online', v: '—' }
+      ],
+      tokenUsage: [
+        { k: '🧮 今日估算总 Tokens', v: '—', cls: 'ok' },
+        { k: '🧵 统计会话数', v: '—' },
+        { k: '🤖 主力模型', v: '—' },
+        { k: '📊 主力模型 Tokens', v: '—' }
       ],
       skills: [
         { name: 'apple-notes', ready: true, desc: '管理 Apple Notes（创建、编辑、检索）', req: [] },
@@ -415,6 +422,7 @@
       renderRows('subagent-list', data.subagents);
       renderRows('cron-list', data.cronJobs);
       renderRows('mcp-list', data.mcpServers);
+      renderRows('token-list', data.tokenUsage);
       renderNpmTools();
       renderSkills();
     }
@@ -436,6 +444,7 @@
         if (Array.isArray(live.cronJobs)) data.cronJobs = live.cronJobs;
         if (Array.isArray(live.npmTools)) data.npmTools = live.npmTools;
         if (Array.isArray(live.mcpServers)) data.mcpServers = live.mcpServers;
+        if (Array.isArray(live.tokenUsage)) data.tokenUsage = live.tokenUsage;
         renderAll();
       } catch (_) {
         // keep fallback data
