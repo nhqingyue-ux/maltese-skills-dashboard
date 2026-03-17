@@ -44,8 +44,18 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 22px;
     }
+    .grid > .panel:nth-child(1),
+    .grid > .panel:nth-child(3),
+    .grid > .panel:nth-child(10) {
+      grid-column: 1 / -1;
+    }
     @media (max-width: 980px) {
       .grid { grid-template-columns: 1fr; gap: 16px; }
+      .grid > .panel:nth-child(1),
+      .grid > .panel:nth-child(3),
+      .grid > .panel:nth-child(10) {
+        grid-column: auto;
+      }
     }
     .panel {
       background: #fffdf9;
@@ -187,7 +197,7 @@
       <article class="panel"><h2>🧰 NPM Global Tools</h2><div class="panel-note">全局工具清单</div><div class="chips" id="npm-tools"></div></article>
       <article class="panel"><h2>🧩 MCP Servers</h2><div class="panel-note">MCP 服务配置与在线情况</div><ul class="list" id="mcp-list"></ul></article>
 
-      <article class="panel" style="grid-column: 1 / -1;">
+      <article class="panel">
         <h2>📦 Skills</h2>
         <div class="skills-toolbar">
           <input class="search" id="skill-search" placeholder="搜索 skill..." />
