@@ -14,9 +14,18 @@
     }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 248, 243, 0.92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #f0e2d1;
+      margin-bottom: 12px;
+    }
+    .header-inner {
       max-width: 1060px;
-      margin: 20px auto 12px;
-      padding: 0 18px;
+      margin: 0 auto;
+      padding: 12px 18px 10px;
     }
     .title-wrap {
       display: inline-flex;
@@ -199,8 +208,10 @@
 </head>
 <body>
   <header>
-    <div class="title-wrap"><h1>Maltese</h1></div>
-    <div class="meta" id="meta"></div>
+    <div class="header-inner">
+      <div class="title-wrap"><h1>Maltese</h1></div>
+      <div class="meta" id="meta"></div>
+    </div>
   </header>
 
   <main class="container">
