@@ -1,78 +1,297 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐶 Maltese Skills 看板</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-  header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:32px 24px 24px;text-align:center;box-shadow:0 4px 20px rgba(102,126,234,.4)}
-  header h1{font-size:2rem;margin-bottom:6px}
-  .stats{display:flex;justify-content:center;gap:24px;margin-top:20px;flex-wrap:wrap}
-  .stat{background:rgba(255,255,255,.2);border-radius:12px;padding:10px 20px;text-align:center}
-  .stat-num{font-size:1.8rem;font-weight:700}
-  .stat-label{font-size:.75rem;opacity:.9}
-  .updated{font-size:.8rem;opacity:.7;margin-top:10px}
-  .controls{max-width:1100px;margin:24px auto 0;padding:0 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .search-box{flex:1;min-width:200px;padding:10px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:.95rem;outline:none;background:white}
-  .search-box:focus{border-color:#667eea}
-  .filter-btn{padding:10px 18px;border:2px solid #e2e8f0;border-radius:10px;background:white;cursor:pointer;font-size:.9rem;font-weight:500}
-  .filter-btn.active{background:#667eea;color:white;border-color:#667eea}
-  .grid{max-width:1100px;margin:20px auto 40px;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-  .card{background:white;border-radius:16px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:10px;border:2px solid transparent;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
-  .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
-  .card.ready{border-color:#48bb78}
-  .card-header{display:flex;align-items:center;gap:12px}
-  .card-emoji{font-size:2rem;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#f7fafc;border-radius:12px;flex-shrink:0}
-  .card-title{font-size:1rem;font-weight:700;color:#2d3748}
-  .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;margin-top:2px}
-  .badge-ready{background:#c6f6d5;color:#276749}
-  .badge-missing{background:#fed7d7;color:#822727}
-  .card-desc{font-size:.82rem;color:#718096;line-height:1.5;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-  .missing-bins{font-size:.72rem;color:#e53e3e;font-family:monospace;background:#fff5f5;padding:3px 8px;border-radius:6px}
-  .homepage-link{font-size:.75rem;color:#667eea;text-decoration:none;padding:4px 10px;border:1px solid #667eea;border-radius:6px}
-  .homepage-link:hover{background:#667eea;color:white}
-  .ready-ribbon{position:absolute;top:14px;right:-8px;background:#48bb78;color:white;font-size:.65rem;font-weight:700;padding:3px 14px 3px 10px}
-  .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#a0aec0;font-size:1.1rem}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐶 Maltese Server Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0b1020;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(120deg, #4f46e5, #0ea5e9);
+      padding: 28px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    }
+    h1 { font-size: 1.8rem; }
+    .subtitle { margin-top: 6px; opacity: .9; }
+    .meta { margin-top: 10px; font-size: .88rem; opacity: .9; }
+
+    .container { max-width: 1250px; margin: 18px auto 40px; padding: 0 14px; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .kpi {
+      background: #111936;
+      border: 1px solid #26345e;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .kpi .n { font-size: 1.45rem; font-weight: 700; }
+    .kpi .l { margin-top: 4px; color: #9fb0d0; font-size: .82rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 12px;
+    }
+    .panel {
+      background: #0f1733;
+      border: 1px solid #24325a;
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 180px;
+    }
+    .panel h2 { font-size: 1rem; margin-bottom: 10px; }
+    .muted { color: #90a4c8; font-size: .86rem; }
+    .list { list-style: none; display: grid; gap: 7px; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      background: #121d40;
+      border: 1px solid #22315b;
+      font-size: .9rem;
+    }
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .74rem;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .ok { color: #86efac; border-color: #14532d; background: #052e16; }
+    .warn { color: #fde68a; border-color: #78350f; background: #451a03; }
+    .bad { color: #fca5a5; border-color: #7f1d1d; background: #450a0a; }
+    .chip {
+      display: inline-block;
+      margin: 3px 5px 3px 0;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #1b2a52;
+      border: 1px solid #29417a;
+      font-size: .82rem;
+    }
+    .skills-wrap { max-height: 420px; overflow: auto; padding-right: 4px; }
+    .skill {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      font-size: .85rem;
+      padding: 7px 8px;
+      border-bottom: 1px solid #203056;
+    }
+    .skill:last-child { border-bottom: 0; }
+    .search {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #33477b;
+      background: #0a122b;
+      color: #dbe8ff;
+      padding: 9px 10px;
+      margin-bottom: 10px;
+    }
+    .footer-note {
+      margin-top: 14px;
+      font-size: .82rem;
+      color: #8ea3c8;
+    }
+    a { color: #8cc7ff; }
+  </style>
 </head>
 <body>
-<header>
-  <h1>🐶 Maltese Skills 看板</h1>
-  <p>OpenClaw 技能一览</p>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">52</div><div class="stat-label">全部技能</div></div>
-    <div class="stat"><div class="stat-num" style="color:#c6f6d5">14</div><div class="stat-label">✅ 已就绪</div></div>
-    <div class="stat"><div class="stat-num" style="color:#fed7d7">38</div><div class="stat-label">⚙️ 待安装</div></div>
-  </div>
-  <div class="updated" id="updated-time"></div>
-</header>
-<div class="controls">
-  <input class="search-box" type="text" id="search" placeholder="🔍 搜索技能...">
-  <button class="filter-btn active" data-filter="all">全部</button>
-  <button class="filter-btn" data-filter="ready">✅ 已就绪</button>
-  <button class="filter-btn" data-filter="missing">⚙️ 待安装</button>
-</div>
-<div class="grid" id="grid"></div>
-<script>
-const skills=[{"name": "1password", "emoji": "🔐", "description": "Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.", "ready": false, "homepage": "https://developer.1password.com/docs/cli/get-started/", "missing_bins": ["op"]}, {"name": "apple-notes", "emoji": "📝", "description": "Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.", "ready": true, "homepage": "https://github.com/antoniorodr/memo", "missing_bins": []}, {"name": "apple-reminders", "emoji": "⏰", "description": "Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.", "ready": true, "homepage": "https://github.com/steipete/remindctl", "missing_bins": []}, {"name": "bear-notes", "emoji": "🐻", "description": "Create, search, and manage Bear notes via grizzly CLI.", "ready": false, "homepage": "https://bear.app", "missing_bins": ["grizzly"]}, {"name": "blogwatcher", "emoji": "📰", "description": "Monitor blogs and RSS/Atom feeds for updates using the blogwatcher CLI.", "ready": false, "homepage": "https://github.com/Hyaxia/blogwatcher", "missing_bins": ["blogwatcher"]}, {"name": "blucli", "emoji": "🫐", "description": "BluOS CLI (blu) for discovery, playback, grouping, and volume.", "ready": false, "homepage": "https://blucli.sh", "missing_bins": ["blu"]}, {"name": "bluebubbles", "emoji": "🫧", "description": "Use when you need to send or manage iMessages via BlueBubbles (recommended iMessage integration). Calls go through the generic message tool with channel=\"bluebubbles\".", "ready": false, "homepage": "", "missing_bins": []}, {"name": "camsnap", "emoji": "📸", "description": "Capture frames or clips from RTSP/ONVIF cameras.", "ready": false, "homepage": "https://camsnap.ai", "missing_bins": ["camsnap"]}, {"name": "clawhub", "emoji": "📦", "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.", "ready": true, "homepage": "", "missing_bins": []}, {"name": "coding-agent", "emoji": "🧩", "description": "Delegate coding tasks to Codex, Claude Code, or Pi agents via background process. Use when: (1) building/creating new features or apps, (2) reviewing PRs (spawn in temp dir), (3) refactoring large codebases, (4) iterative coding that needs file exploration. NOT for: simple one-liner fixes (just edit), reading code (use read tool), thread-bound ACP harness requests in chat (for example spawn/run Codex or Claude Code in a Discord thread; use sessions_spawn with runtime:\"acp\"), or any work in ~/clawd workspace (never spawn agents here). Claude Code: use --print --permission-mode bypassPermissions (no PTY). Codex/Pi/OpenCode: pty:true required.", "ready": true, "homepage": "", "missing_bins": []}, {"name": "discord", "emoji": "🎮", "description": "Discord ops via the message tool (channel=discord).", "ready": true, "homepage": "", "missing_bins": []}, {"name": "eightctl", "emoji": "🛌", "description": "Control Eight Sleep pods (status, temperature, alarms, schedules).", "ready": false, "homepage": "https://eightctl.sh", "missing_bins": ["eightctl"]}, {"name": "gemini", "emoji": "✨", "description": "Gemini CLI for one-shot Q&A, summaries, and generation.", "ready": false, "homepage": "https://ai.google.dev/", "missing_bins": ["gemini"]}, {"name": "gh-issues", "emoji": "📦", "description": "Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]", "ready": true, "homepage": "", "missing_bins": []}, {"name": "gifgrep", "emoji": "🧲", "description": "Search GIF providers with CLI/TUI, download results, and extract stills/sheets.", "ready": false, "homepage": "https://gifgrep.com", "missing_bins": ["gifgrep"]}, {"name": "github", "emoji": "🐙", "description": "GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.", "ready": true, "homepage": "", "missing_bins": []}, {"name": "gog", "emoji": "🎮", "description": "Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.", "ready": true, "homepage": "https://gogcli.sh", "missing_bins": []}, {"name": "goplaces", "emoji": "📍", "description": "Query Google Places API (New) via the goplaces CLI for text search, place details, resolve, and reviews. Use for human-friendly place lookup or JSON output for scripts.", "ready": false, "homepage": "https://github.com/steipete/goplaces", "missing_bins": ["goplaces"]}, {"name": "healthcheck", "emoji": "📦", "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).", "ready": true, "homepage": "", "missing_bins": []}, {"name": "himalaya", "emoji": "📧", "description": "CLI to manage emails via IMAP/SMTP. Use `himalaya` to list, read, write, reply, forward, search, and organize emails from the terminal. Supports multiple accounts and message composition with MML (MIME Meta Language).", "ready": false, "homepage": "https://github.com/pimalaya/himalaya", "missing_bins": ["himalaya"]}, {"name": "imsg", "emoji": "📨", "description": "iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.", "ready": false, "homepage": "https://imsg.to", "missing_bins": ["imsg"]}, {"name": "mcporter", "emoji": "📦", "description": "Use the mcporter CLI to list, configure, auth, and call MCP servers/tools directly (HTTP or stdio), including ad-hoc servers, config edits, and CLI/type generation.", "ready": false, "homepage": "http://mcporter.dev", "missing_bins": ["mcporter"]}, {"name": "model-usage", "emoji": "📊", "description": "Use CodexBar CLI local cost usage to summarize per-model usage for Codex or Claude, including the current (most recent) model or a full model breakdown. Trigger when asked for model-level usage/cost data from codexbar, or when you need a scriptable per-model summary from codexbar cost JSON.", "ready": false, "homepage": "", "missing_bins": ["codexbar"]}, {"name": "nano-banana-pro", "emoji": "🍌", "description": "Generate or edit images via Gemini 3 Pro Image (Nano Banana Pro).", "ready": false, "homepage": "https://ai.google.dev/", "missing_bins": ["uv"]}, {"name": "nano-pdf", "emoji": "📄", "description": "Edit PDFs with natural-language instructions using the nano-pdf CLI.", "ready": false, "homepage": "https://pypi.org/project/nano-pdf/", "missing_bins": ["nano-pdf"]}, {"name": "node-connect", "emoji": "📦", "description": "Diagnose OpenClaw node connection and pairing failures for Android, iOS, and macOS companion apps. Use when QR/setup code/manual connect fails, local Wi-Fi works but VPS/tailnet does not, or errors mention pairing required, unauthorized, bootstrap token invalid or expired, gateway.bind, gateway.remote.url, Tailscale, or plugins.entries.device-pair.config.publicUrl.", "ready": true, "homepage": "", "missing_bins": []}, {"name": "notion", "emoji": "📝", "description": "Notion API for creating and managing pages, databases, and blocks.", "ready": false, "homepage": "https://developers.notion.com", "missing_bins": []}, {"name": "obsidian", "emoji": "💎", "description": "Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.", "ready": false, "homepage": "https://help.obsidian.md", "missing_bins": ["obsidian-cli"]}, {"name": "openai-image-gen", "emoji": "🎨", "description": "Batch-generate images via OpenAI Images API. Random prompt sampler + `index.html` gallery.", "ready": false, "homepage": "https://platform.openai.com/docs/api-reference/images", "missing_bins": []}, {"name": "openai-whisper", "emoji": "🎤", "description": "Local speech-to-text with the Whisper CLI (no API key).", "ready": false, "homepage": "https://openai.com/research/whisper", "missing_bins": ["whisper"]}, {"name": "openai-whisper-api", "emoji": "🌐", "description": "Transcribe audio via OpenAI Audio Transcriptions API (Whisper).", "ready": false, "homepage": "https://platform.openai.com/docs/guides/speech-to-text", "missing_bins": []}, {"name": "openhue", "emoji": "💡", "description": "Control Philips Hue lights and scenes via the OpenHue CLI.", "ready": false, "homepage": "https://www.openhue.io/cli", "missing_bins": ["openhue"]}, {"name": "oracle", "emoji": "🧿", "description": "Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).", "ready": false, "homepage": "https://askoracle.dev", "missing_bins": ["oracle"]}, {"name": "ordercli", "emoji": "🛵", "description": "Foodora-only CLI for checking past orders and active order status (Deliveroo WIP).", "ready": false, "homepage": "https://ordercli.sh", "missing_bins": ["ordercli"]}, {"name": "peekaboo", "emoji": "👀", "description": "Capture and automate macOS UI with the Peekaboo CLI.", "ready": true, "homepage": "https://peekaboo.boo", "missing_bins": []}, {"name": "sag", "emoji": "🔊", "description": "ElevenLabs text-to-speech with mac-style say UX.", "ready": false, "homepage": "https://sag.sh", "missing_bins": ["sag"]}, {"name": "session-logs", "emoji": "📜", "description": "Search and analyze your own session logs (older/parent conversations) using jq.", "ready": false, "homepage": "", "missing_bins": ["rg"]}, {"name": "sherpa-onnx-tts", "emoji": "🔉", "description": "Local text-to-speech via sherpa-onnx (offline, no cloud)", "ready": false, "homepage": "", "missing_bins": []}, {"name": "skill-creator", "emoji": "📦", "description": "Create, edit, improve, or audit AgentSkills. Use when creating a new skill from scratch or when asked to improve, review, audit, tidy up, or clean up an existing skill or SKILL.md file. Also use when editing or restructuring a skill directory (moving files to references/ or scripts/, removing stale content, validating against the AgentSkills spec). Triggers on phrases like \"create a skill\", \"author a skill\", \"tidy up a skill\", \"improve this skill\", \"review the skill\", \"clean up the skill\", \"audit the skill\".", "ready": true, "homepage": "", "missing_bins": []}, {"name": "slack", "emoji": "💬", "description": "Use when you need to control Slack from OpenClaw via the slack tool, including reacting to messages or pinning/unpinning items in Slack channels or DMs.", "ready": false, "homepage": "", "missing_bins": []}, {"name": "songsee", "emoji": "🌊", "description": "Generate spectrograms and feature-panel visualizations from audio with the songsee CLI.", "ready": false, "homepage": "https://github.com/steipete/songsee", "missing_bins": ["songsee"]}, {"name": "sonoscli", "emoji": "🔊", "description": "Control Sonos speakers (discover/status/play/volume/group).", "ready": false, "homepage": "https://sonoscli.sh", "missing_bins": ["sonos"]}, {"name": "spotify-player", "emoji": "🎵", "description": "Terminal Spotify playback/search via spogo (preferred) or spotify_player.", "ready": true, "homepage": "https://www.spotify.com", "missing_bins": []}, {"name": "summarize", "emoji": "🧾", "description": "Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).", "ready": false, "homepage": "https://summarize.sh", "missing_bins": ["summarize"]}, {"name": "things-mac", "emoji": "✅", "description": "Manage Things 3 via the `things` CLI on macOS (add/update projects+todos via URL scheme; read/search/list from the local Things database). Use when a user asks OpenClaw to add a task to Things, list inbox/today/upcoming, search tasks, or inspect projects/areas/tags.", "ready": false, "homepage": "https://github.com/ossianhempel/things3-cli", "missing_bins": ["things"]}, {"name": "tmux", "emoji": "🧵", "description": "Remote-control tmux sessions for interactive CLIs by sending keystrokes and scraping pane output.", "ready": false, "homepage": "", "missing_bins": ["tmux"]}, {"name": "trello", "emoji": "📋", "description": "Manage Trello boards, lists, and cards via the Trello REST API.", "ready": false, "homepage": "https://developer.atlassian.com/cloud/trello/rest/", "missing_bins": []}, {"name": "video-frames", "emoji": "🎬", "description": "Extract frames or short clips from videos using ffmpeg.", "ready": false, "homepage": "https://ffmpeg.org", "missing_bins": ["ffmpeg"]}, {"name": "voice-call", "emoji": "📞", "description": "Start voice calls via the OpenClaw voice-call plugin.", "ready": false, "homepage": "", "missing_bins": []}, {"name": "wacli", "emoji": "📱", "description": "Send WhatsApp messages to other people or search/sync WhatsApp history via the wacli CLI (not for normal user chats).", "ready": false, "homepage": "https://wacli.sh", "missing_bins": ["wacli"]}, {"name": "weather", "emoji": "☔", "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.", "ready": true, "homepage": "https://wttr.in/:help", "missing_bins": []}, {"name": "xurl", "emoji": "🐦", "description": "A CLI tool for making authenticated requests to the X (Twitter) API. Use this skill when you need to post tweets, reply, quote, search, read posts, manage followers, send DMs, upload media, or interact with any X API v2 endpoint.", "ready": false, "homepage": "", "missing_bins": ["xurl"]}];
-let filter='all',search='';
-document.getElementById('updated-time').textContent='数据更新时间：'+new Date(document.lastModified).toLocaleString('zh-CN');
-function render(){
-  const grid=document.getElementById('grid');
-  const f=skills.filter(s=>{
-    const mf=filter==='all'||(filter==='ready'&&s.ready)||(filter==='missing'&&!s.ready);
-    const q=search.toLowerCase();
-    return mf&&(!q||s.name.toLowerCase().includes(q)||s.description.toLowerCase().includes(q));
-  });
-  if(!f.length){grid.innerHTML='<div class="empty">😿 没有匹配的技能</div>';return;}
-  grid.innerHTML=f.map(s=>`<div class="card ${s.ready?'ready':'missing'}">${s.ready?'<div class="ready-ribbon">READY</div>':''}<div class="card-header"><div class="card-emoji">${s.emoji}</div><div><div class="card-title">${s.name}</div><span class="badge ${s.ready?'badge-ready':'badge-missing'}">${s.ready?'✅ 已就绪':'⚙️ 待安装'}</span></div></div><div class="card-desc">${s.description}</div><div class="card-footer">${s.missing_bins&&s.missing_bins.length?`<span class="missing-bins">需要: ${s.missing_bins.join(', ')}</span>`:'<span></span>'}${s.homepage?`<a class="homepage-link" href="${s.homepage}" target="_blank">官网 →</a>`:''}</div></div>`).join('');
-}
-document.getElementById('search').addEventListener('input',e=>{search=e.target.value;render();});
-document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filter=btn.dataset.filter;render();}));
-render();
-</script>
+  <header>
+    <h1>🐶 Maltese 服务器信息看板</h1>
+    <div class="subtitle">Status / Sessions / Cron / Resources / Skills / Services</div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <main class="container">
+    <section class="kpis" id="kpis"></section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>🟢 Status</h2>
+        <ul class="list" id="status-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>⏱ Uptime</h2>
+        <ul class="list" id="uptime-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>🧠 System Resources</h2>
+        <ul class="list" id="resource-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>🛠 Services</h2>
+        <ul class="list" id="service-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>🧵 Active Sessions</h2>
+        <ul class="list" id="session-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>🤖 Sub-agents</h2>
+        <ul class="list" id="subagent-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>⏰ Cron Jobs</h2>
+        <ul class="list" id="cron-list"></ul>
+      </article>
+
+      <article class="panel">
+        <h2>🧰 NPM Global Tools</h2>
+        <div id="npm-tools"></div>
+      </article>
+
+      <article class="panel">
+        <h2>🧩 MCP Servers</h2>
+        <ul class="list" id="mcp-list"></ul>
+      </article>
+
+      <article class="panel" style="grid-column: 1 / -1;">
+        <h2>📦 Skills</h2>
+        <input class="search" id="skill-search" placeholder="搜索 skill..." />
+        <div class="skills-wrap" id="skills"></div>
+      </article>
+    </section>
+
+    <p class="footer-note">
+      当前是<strong>信息面板版</strong>。后续可接入自动采集脚本（OpenClaw API + 系统命令）定时更新 JSON。
+      推荐数据源：<code>openclaw status</code>、<code>sessions_list</code>、<code>subagents list</code>、<code>crontab -l</code>、<code>pmset -g batt</code>、<code>top</code>。
+    </p>
+  </main>
+
+  <script>
+    const data = {
+      updatedAt: new Date().toLocaleString('zh-CN'),
+      host: '农黄清月的Mac mini',
+      status: [
+        { k: 'OpenClaw Gateway', v: 'Running', cls: 'ok' },
+        { k: 'Model', v: 'onekey-codex/gpt-5.3-codex', cls: 'ok' },
+        { k: 'Channel', v: 'Discord', cls: 'ok' },
+        { k: 'Health', v: 'Nominal', cls: 'ok' },
+      ],
+      uptime: [
+        { k: 'Host Uptime', v: '— (待接真实数据)' },
+        { k: 'Gateway Uptime', v: '—' },
+        { k: 'Last Restart', v: '—' },
+      ],
+      resources: [
+        { k: 'CPU', v: '—' },
+        { k: 'Memory', v: '—' },
+        { k: 'Disk /', v: '—' },
+        { k: 'Load Avg', v: '—' },
+      ],
+      services: [
+        { k: 'openclaw', v: 'running', cls: 'ok' },
+        { k: 'tailscale', v: 'unknown', cls: 'warn' },
+        { k: 'ssh', v: 'unknown', cls: 'warn' },
+      ],
+      activeSessions: [
+        { k: 'main', v: 'discord #skill', cls: 'ok' },
+      ],
+      subagents: [
+        { k: 'running', v: '0', cls: 'ok' },
+        { k: 'queued', v: '0', cls: 'ok' },
+      ],
+      cronJobs: [
+        { k: 'Gmail 周报', v: '每周五 15:00 GMT+8', cls: 'ok' },
+      ],
+      npmTools: [
+        'openclaw', 'clawhub', 'node', 'npm'
+      ],
+      mcpServers: [
+        { k: 'Configured', v: '—' },
+        { k: 'Online', v: '—' },
+      ],
+      skills: [
+        { name: 'apple-notes', ready: true }, { name: 'apple-reminders', ready: true },
+        { name: 'clawhub', ready: true }, { name: 'discord', ready: true },
+        { name: 'gog', ready: true }, { name: 'healthcheck', ready: true },
+        { name: 'node-connect', ready: true }, { name: 'peekaboo', ready: true },
+        { name: 'skill-creator', ready: true }, { name: 'weather', ready: true },
+        { name: '1password', ready: false }, { name: 'himalaya', ready: false },
+        { name: 'mcporter', ready: false }, { name: 'nano-pdf', ready: false },
+        { name: 'openai-whisper', ready: false }, { name: 'things-mac', ready: false }
+      ]
+    };
+
+    const byId = id => document.getElementById(id);
+
+    function renderRows(id, rows) {
+      byId(id).innerHTML = rows.map(r => `
+        <li class="row">
+          <span>${r.k}</span>
+          <span class="${r.cls ? `pill ${r.cls}` : 'muted'}">${r.v}</span>
+        </li>
+      `).join('');
+    }
+
+    function renderKPIs() {
+      const totalSkills = data.skills.length;
+      const readySkills = data.skills.filter(s => s.ready).length;
+      const activeSessions = data.activeSessions.length;
+      const cronCount = data.cronJobs.length;
+      const runningSubAgents = Number(data.subagents.find(s => s.k === 'running')?.v || 0);
+
+      byId('kpis').innerHTML = [
+        ['Skills', `${readySkills}/${totalSkills}`],
+        ['Active Sessions', `${activeSessions}`],
+        ['Cron Jobs', `${cronCount}`],
+        ['Sub-agents', `${runningSubAgents}`],
+        ['Services', `${data.services.length}`],
+      ].map(([l, n]) => `<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+    }
+
+    function renderSkills(filterText = '') {
+      const q = filterText.trim().toLowerCase();
+      const rows = data.skills.filter(s => !q || s.name.toLowerCase().includes(q));
+      byId('skills').innerHTML = rows.map(s => `
+        <div class="skill">
+          <span>${s.name}</span>
+          <span class="pill ${s.ready ? 'ok' : 'warn'}">${s.ready ? 'READY' : 'MISSING'}</span>
+        </div>
+      `).join('') || `<div class="muted">没有匹配技能</div>`;
+    }
+
+    function renderNpmTools() {
+      byId('npm-tools').innerHTML = data.npmTools.map(t => `<span class="chip">${t}</span>`).join('');
+    }
+
+    function renderAll() {
+      byId('meta').textContent = `Host: ${data.host} · 更新时间: ${data.updatedAt}`;
+      renderKPIs();
+      renderRows('status-list', data.status);
+      renderRows('uptime-list', data.uptime);
+      renderRows('resource-list', data.resources);
+      renderRows('service-list', data.services);
+      renderRows('session-list', data.activeSessions);
+      renderRows('subagent-list', data.subagents);
+      renderRows('cron-list', data.cronJobs);
+      renderRows('mcp-list', data.mcpServers);
+      renderNpmTools();
+      renderSkills();
+    }
+
+    byId('skill-search').addEventListener('input', e => renderSkills(e.target.value));
+    renderAll();
+  </script>
 </body>
 </html>
