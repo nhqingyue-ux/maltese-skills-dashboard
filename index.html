@@ -429,9 +429,15 @@
       renderSkills();
     }
 
+    const qs = new URLSearchParams(location.search);
+    const API_ENDPOINT = qs.get('api') || window.MALTESE_API_ENDPOINT || './data/metrics.json';
+    const API_TOKEN = qs.get('token') || window.MALTESE_API_TOKEN || '';
+
     async function loadLiveMetrics() {
       try {
-        const res = await fetch(`./data/metrics.json?t=${Date.now()}`, { cache: 'no-store' });
+        const url = `${API_ENDPOINT}${API_ENDPOINT.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        const headers = API_TOKEN ? { 'X-API-Key': API_TOKEN } : {};
+        const res = await fetch(url, { cache: 'no-store', headers });
         if (!res.ok) return;
         const live = await res.json();
         data.updatedAt = live.updatedAt || data.updatedAt;
