@@ -430,7 +430,7 @@
     }
 
     const qs = new URLSearchParams(location.search);
-    const API_ENDPOINT = qs.get('api') || window.MALTESE_API_ENDPOINT || 'https://maltese.nhqingyue.com/api/data';
+    const API_ENDPOINT = qs.get('api') || window.MALTESE_API_ENDPOINT || '/api/data';
     const API_TOKEN = qs.get('token') || window.MALTESE_API_TOKEN || '';
 
     async function loadLiveMetrics() {

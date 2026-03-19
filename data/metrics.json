@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-03-17 19:15:56",
-  "host": "Mac",
+  "updatedAt": "2026-03-19 15:38:04",
+  "host": "农黄清月的Mac mini",
   "status": [
     {
       "k": "🚪 OpenClaw Gateway",
-      "v": "running",
-      "cls": "ok"
+      "v": "unknown",
+      "cls": "warn"
     },
     {
       "k": "🧠 Model",
@@ -26,47 +26,47 @@
   "uptime": [
     {
       "k": "🖥 Host Uptime",
-      "v": "19:15  up 3 days, 17:39, 1 user, load averages: 1.81 1.81 1.90"
+      "v": "15:38  up 5 days, 14:01, 2 users, load averages: 1.96 1.61 1.44"
     },
     {
       "k": "📡 Gateway Uptime",
-      "v": "live (daemon)"
+      "v": "—"
     },
     {
       "k": "🕒 Last Refresh",
-      "v": "19:15:56"
+      "v": "15:38:04"
     }
   ],
   "resources": [
     {
       "k": "⚙️ CPU",
-      "v": "11.2%",
-      "pct": 11.2,
+      "v": "24.2%",
+      "pct": 24.2,
       "detail": "负载占比"
     },
     {
       "k": "🧠 Memory",
-      "v": "89.8%",
-      "pct": 89.8,
-      "detail": "14.4 / 16.0 GiB"
+      "v": "91.3%",
+      "pct": 91.3,
+      "detail": "14.6 / 16.0 GiB"
     },
     {
       "k": "💾 Disk /",
-      "v": "23.6%",
-      "pct": 23.6,
-      "detail": "53.8 / 228.3 GiB"
+      "v": "30.3%",
+      "pct": 30.3,
+      "detail": "69.2 / 228.3 GiB"
     },
     {
       "k": "📈 Load Avg",
-      "v": "1.81 / 1.81 / 1.90",
+      "v": "1.96 / 1.61 / 1.44",
       "detail": "1m / 5m / 15m"
     }
   ],
   "services": [
     {
       "k": "openclaw",
-      "v": "running",
-      "cls": "ok"
+      "v": "unknown",
+      "cls": "warn"
     },
     {
       "k": "http-dashboard",
@@ -106,11 +106,10 @@
     }
   ],
   "npmTools": [
-    "@googleworkspace/cli",
+    "openclaw",
     "clawhub",
-    "corepack",
-    "npm",
-    "openclaw"
+    "node",
+    "npm"
   ],
   "mcpServers": [
     {
@@ -125,20 +124,20 @@
   "tokenUsage": [
     {
       "k": "🧮 今日估算总 Tokens",
-      "v": "0.395M",
+      "v": "0.000M",
       "cls": "ok"
     },
     {
       "k": "🧵 统计会话数",
-      "v": "10"
+      "v": "0"
     },
     {
       "k": "🤖 主力模型",
-      "v": "gpt-5.3-codex"
+      "v": "—"
     },
     {
       "k": "📊 主力模型 Tokens",
-      "v": "0.395M"
+      "v": "0.000M"
     }
   ]
 }
