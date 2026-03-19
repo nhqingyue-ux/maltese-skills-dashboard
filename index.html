@@ -452,6 +452,9 @@
         if (Array.isArray(live.cronJobs)) data.cronJobs = live.cronJobs;
         if (Array.isArray(live.npmTools)) data.npmTools = live.npmTools;
         if (Array.isArray(live.mcpServers)) data.mcpServers = live.mcpServers;
+        if (Array.isArray(live.skills)) data.skills = live.skills.map(s => ({
+          name: s.k, ready: s.ready !== false, desc: s.desc || '', req: s.req || []
+        }));
         if (Array.isArray(live.tokenUsage)) data.tokenUsage = live.tokenUsage;
         renderAll();
       } catch (_) {

@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-03-19 15:38:04",
-  "host": "农黄清月的Mac mini",
+  "updatedAt": "2026-03-19 16:34:00",
+  "host": "Mac",
   "status": [
     {
       "k": "🚪 OpenClaw Gateway",
-      "v": "unknown",
-      "cls": "warn"
+      "v": "running",
+      "cls": "ok"
     },
     {
       "k": "🧠 Model",
@@ -26,47 +26,47 @@
   "uptime": [
     {
       "k": "🖥 Host Uptime",
-      "v": "15:38  up 5 days, 14:01, 2 users, load averages: 1.96 1.61 1.44"
+      "v": "16:33  up 5 days, 14:57, 2 users, load averages: 1.88 1.89 1.95"
     },
     {
       "k": "📡 Gateway Uptime",
-      "v": "—"
+      "v": "live (daemon)"
     },
     {
       "k": "🕒 Last Refresh",
-      "v": "15:38:04"
+      "v": "16:34:00"
     }
   ],
   "resources": [
     {
       "k": "⚙️ CPU",
-      "v": "24.2%",
-      "pct": 24.2,
+      "v": "25.0%",
+      "pct": 25.0,
       "detail": "负载占比"
     },
     {
       "k": "🧠 Memory",
-      "v": "91.3%",
-      "pct": 91.3,
-      "detail": "14.6 / 16.0 GiB"
+      "v": "96.2%",
+      "pct": 96.2,
+      "detail": "15.4 / 16.0 GiB"
     },
     {
       "k": "💾 Disk /",
-      "v": "30.3%",
-      "pct": 30.3,
-      "detail": "69.2 / 228.3 GiB"
+      "v": "31.0%",
+      "pct": 31.0,
+      "detail": "70.7 / 228.3 GiB"
     },
     {
       "k": "📈 Load Avg",
-      "v": "1.96 / 1.61 / 1.44",
+      "v": "1.88 / 1.89 / 1.95",
       "detail": "1m / 5m / 15m"
     }
   ],
   "services": [
     {
       "k": "openclaw",
-      "v": "unknown",
-      "cls": "warn"
+      "v": "running",
+      "cls": "ok"
     },
     {
       "k": "http-dashboard",
@@ -106,10 +106,343 @@
     }
   ],
   "npmTools": [
-    "openclaw",
+    "@googleworkspace/cli",
     "clawhub",
-    "node",
-    "npm"
+    "corepack",
+    "npm",
+    "openclaw"
+  ],
+  "skills": [
+    {
+      "k": "1password",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "apple-notes",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "apple-reminders",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "bear-notes",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "blogwatcher",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "blucli",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "bluebubbles",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "camsnap",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "canvas",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "clawhub",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "coding-agent",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "discord",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "eightctl",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "gemini",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "gh-issues",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "gifgrep",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "github",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "gog",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "goplaces",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "healthcheck",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "himalaya",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "imsg",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "mcporter",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "model-usage",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "nano-banana-pro",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "nano-pdf",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "node-connect",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "notion",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "obsidian",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "openai-image-gen",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "openai-whisper-api",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "openai-whisper",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "openhue",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "oracle",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "ordercli",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "peekaboo",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "sag",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "session-logs",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "sherpa-onnx-tts",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "skill-creator",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "slack",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "songsee",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "sonoscli",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "spotify-player",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "summarize",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "things-mac",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "tmux",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "trello",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "video-frames",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "voice-call",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "wacli",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "weather",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "xurl",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "local-publish",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    },
+    {
+      "k": "stlink-debug",
+      "v": "ready",
+      "cls": "ok",
+      "ready": true
+    }
   ],
   "mcpServers": [
     {
@@ -124,20 +457,20 @@
   "tokenUsage": [
     {
       "k": "🧮 今日估算总 Tokens",
-      "v": "0.000M",
+      "v": "0.770M",
       "cls": "ok"
     },
     {
       "k": "🧵 统计会话数",
-      "v": "0"
+      "v": "9"
     },
     {
       "k": "🤖 主力模型",
-      "v": "—"
+      "v": "claude-sonnet-4-6"
     },
     {
       "k": "📊 主力模型 Tokens",
-      "v": "0.000M"
+      "v": "0.770M"
     }
   ]
 }

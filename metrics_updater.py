@@ -85,6 +85,23 @@ def gateway_status() -> str:
     return "unknown"
 
 
+def get_skills():
+    import glob as _glob
+    skills = []
+    # system skills
+    sys_skill_dir = "/opt/homebrew/lib/node_modules/openclaw/skills"
+    # workspace skills
+    ws_skill_dir = str(Path(__file__).resolve().parent.parent / "skills")
+    seen = set()
+    for base in [sys_skill_dir, ws_skill_dir]:
+        for skill_path in sorted(_glob.glob(f"{base}/*/SKILL.md")):
+            name = Path(skill_path).parent.name
+            if name not in seen:
+                seen.add(name)
+                skills.append({"k": name, "v": "ready", "cls": "ok", "ready": True})
+    return skills
+
+
 def npm_global_tools(limit=18):
     s = run("npm -g ls --depth=0 --json")
     if not s:
@@ -189,6 +206,7 @@ def collect():
         "subagents": [{"k": "running", "v": "0", "cls": "ok"}, {"k": "queued", "v": "0", "cls": "ok"}],
         "cronJobs": [{"k": "📬 Gmail 周报", "v": "每周五 15:00 GMT+8", "cls": "ok"}],
         "npmTools": npm_global_tools(),
+        "skills": get_skills(),
         "mcpServers": [{"k": "Configured", "v": "—"}, {"k": "Online", "v": "—"}],
         "tokenUsage": [
             {"k": "🧮 今日估算总 Tokens", "v": fmt_m(tu['total']), "cls": "ok"},
